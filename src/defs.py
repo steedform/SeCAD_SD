@@ -27,6 +27,44 @@ import os
 import tkinter as tk
 from tkinter import simpledialog, messagebox, StringVar, OptionMenu
 import json
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.serialization import load_pem_public_key
+from datetime import datetime
+import base64
+import sys
+
+LICENSE_FILE = r"..\lic\license.lic"
+PUBLIC_KEY_FILE = r"..\lic\keys\public_key.pem"
+
+def validate_license():
+    try:
+        # Load License File
+        with open(LICENSE_FILE, "r") as file:
+            expiry_date = file.readline().strip()
+            signature = base64.b64decode(file.readline().strip())
+        
+        # Load Public Key
+        with open(PUBLIC_KEY_FILE, "rb") as key_file:
+            public_key = load_pem_public_key(key_file.read())
+
+        # Verify Signature
+        public_key.verify(
+            signature,
+            expiry_date.encode(),
+            padding.PKCS1v15(),
+            hashes.SHA256()
+        )
+
+        # Check Expiry Date
+        if datetime.now() > datetime.strptime(expiry_date, "%Y-%m-%d"):
+            print("License has expired. Please renew.")
+            sys.exit(1)
+
+        print(f"License is valid. Expires on: {expiry_date}")
+    except Exception as e:
+        print(f"License validation failed: {e}")
+        sys.exit(1)
 
 logging.basicConfig(filename="output.log", level=logging.DEBUG)
 
@@ -505,6 +543,19 @@ def get_all_checkpoints(script_name):
                 "pdf_uploaded",
                 "moved_to_production"
         ]
+    elif script_name == 'SeProExpAd':
+        return [
+            "start",
+            "print_tab_selected",
+            "printer_selected",
+            "printouts_selected",
+            "print_all_clicked",
+            "export_tab_selected",
+            "xml_tab_selected",
+            "xml_saved",
+            "project_final_saved"
+        ]
+
 
 
 def prompt_user_for_checkpoint_with_dropdown(script_name, job_id):
@@ -620,3 +671,4 @@ def handle_existing_job_id(job_id, base_path):
         job_id_save = os.path.join(base_path, f"{job_id}.sep")
 
     return job_id_save
+

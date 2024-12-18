@@ -6,6 +6,7 @@ above copyright notice.
 '''
 
 from defs import *
+from defs import get_printer as gp
 import pyautogui
 import time
 import os
@@ -106,4 +107,5 @@ def main():
         clear_checkpoint(script_name, job_id)
 
 if __name__ == '__main__':
+    validate_license()
     main()

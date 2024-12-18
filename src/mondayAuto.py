@@ -6,7 +6,7 @@ above copyright notice.
 '''
 
 from api_monday_tk import *
-from defs import get_job_id
+from defs import get_job_id, validate_license
 
 def main_process(progress):
     test_api_connection(progress)
@@ -38,4 +38,5 @@ def run_main():
     root.mainloop()
 
 if __name__ == "__main__":
+    validate_license()
     run_main()

@@ -254,4 +254,5 @@ def main():
             clear_checkpoint(script_name, job_id)
 
 if __name__ == '__main__':
+    validate_license()
     main()
