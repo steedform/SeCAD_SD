@@ -21,11 +21,12 @@ from defs import terminate_program as tp
 from defs import *
 
 
-tp()
+
 
 coordinates = read_coordinates_from_csv(r"..\coordinates_SE.csv")
 
 def main():
+    tp()
     # Derive script name and read job ID from file
     script_name = os.path.splitext(os.path.basename(__file__))[0]
     with open(r"..\job_id.txt", "r") as idFile:
@@ -92,7 +93,7 @@ def main():
         click_element(*get_coordinates('printTab', coordinates))
 
         # click on printer drpdwn
-        click_element(*get_coordinates('prtDrpDwn', coordinates))
+        #click_element(*get_coordinates('prtDrpDwn', coordinates))
         gp(r"..\prt_sales_con.txt", "Sales", "prtDrpDwn", "salesPrt")
         print("Handled printer configuration.")
         sys.stdout.flush()
@@ -249,7 +250,8 @@ def main():
                 # Wait for the "Save" button and click it
                 page.wait_for_selector('button.dialogSubmitButton[name="ok"]')
                 page.click('button.dialogSubmitButton[name="ok"]')
-                time.sleep(3)
+                messagebox.showinfo("Important", "Well, Click next on your streamDeck when Uploading is completed! ;)")
+                keyboard.wait("ctrl+0")
                 browser.close()
                 print("Uploading process completed!")
                 sys.stdout.flush()

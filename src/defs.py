@@ -374,15 +374,17 @@ def is_capslock_on():
 print("Caps Lock is now off (if it was on).")
 
 def get_printer(prt_file_path, tab_name, drpdwn, prt_name):
-    time.sleep(2)
+    time.sleep(0.5)
     
     # Set up Tesseract path if not already in PATH
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'  # Adjust path if needed
-
+    time.sleep(0.5)
+    click_element(*get_coordinates(drpdwn, coordinates))
+    time.sleep(1)
     # Step 2: Take a screenshot of the screen (you can also focus the capture area if needed)
     screenshot = pyautogui.screenshot()
     screenshot.save(rf"..\screenshot_{tab_name}.png")  # Save the screenshot to file
-    time.sleep(0.6)
+    time.sleep(1)
     # Load the image
     image_path = rf"..\screenshot_{tab_name}.png"  # Path to the screenshot
     image = cv2.imread(image_path)
@@ -474,10 +476,11 @@ def get_printer(prt_file_path, tab_name, drpdwn, prt_name):
             keyboard.wait("ctrl+0")
         else:
             click_element(*get_coordinates("outside", coordinates))
-            time.sleep(0.2)
+            time.sleep(0.5)
             pyautogui.click(*get_coordinates(drpdwn, coordinates))
-            time.sleep(0.2)
+            time.sleep(0.5)
             click_element(*get_coordinates(prt_name, coordinates))
+            time.sleep(1)
 
 import os
 import tkinter as tk

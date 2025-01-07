@@ -14,8 +14,10 @@ import pyperclip
 from tkinter import messagebox
 import os
 import sys
+from defs import terminate_program as tp
 
 def main():
+    tp()
     # Derive script name and prompt for job ID
     script_name = os.path.splitext(os.path.basename(__file__))[0]
     job_id = simpledialog.askstring("Input", "Enter Job ID:", initialvalue="ST")
@@ -113,7 +115,7 @@ def main():
             state['data'] = data
             state['job_name'] = job_name
             state['job_name_full'] = job_name_full
-            categorize_fields(data)
+            categorize_fields(state['data'])
             save_state(script_name, job_id, state)
 
             time.sleep(0.5)

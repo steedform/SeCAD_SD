@@ -11,8 +11,10 @@ import pyautogui
 import time
 import os
 import sys
+from defs import terminate_program as tp
 
 def main():
+    tp()
     # Derive script name and read job ID
     script_name = os.path.splitext(os.path.basename(__file__))[0]
     with open(r"..\job_id.txt", "r") as idFile:
@@ -41,7 +43,7 @@ def main():
 
     # Step: Select Printer Dropdown
     if selected_step in ["print_tab_selected", "start"]:
-        click_element(*get_coordinates("proPrtDrpDwn", coordinates))
+        #click_element(*get_coordinates("proPrtDrpDwn", coordinates))
         time.sleep(0.2)
         gp(r"..\prt_prod_con.txt", "Production", "proPrtDrpDwn", "proPrt")
         print("Printer selected from dropdown.")
